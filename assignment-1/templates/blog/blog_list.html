@@ -1,0 +1,100 @@
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <title>Blog List</title>#}
+{#</head>#}
+{#<body>#}
+{##}
+{#    <nav>#}
+{#        {% if user.is_authenticated %}#}
+{#            <form method="post" action="{% url 'logout' %}" style="display:inline;">#}
+{#                {% csrf_token %}#}
+{#                <button type="submit">Logout</button>#}
+{#            </form>#}
+{#        {% else %}#}
+{#            <a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a>#}
+{#        {% endif %}#}
+{#        <a href="{% url 'blog_list' %}">Blog List</a>#}
+{#    </nav>#}
+{##}
+{#    <h1>Blog Posts</h1>#}
+{#    <ul>#}
+{#        {% for blog in page_obj %}#}
+{#            <li>#}
+{#                <a href="{% url 'blog_detail' id=blog.id %}">{{ blog.title }}</a>#}
+{#            </li>#}
+{#        {% empty %}#}
+{#            <li>No blog posts available.</li>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+{##}
+{#    <!-- Pagination Controls -->#}
+{#    <div class="pagination">#}
+{#        <span class="step-links">#}
+{#            {% if page_obj.has_previous %}#}
+{#                <a href="?page=1">&laquo; First</a>#}
+{#                <a href="?page={{ page_obj.previous_page_number }}">Previous</a>#}
+{#            {% endif %}#}
+{##}
+{#            <span class="current">#}
+{#                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
+{#            </span>#}
+{##}
+{#            {% if page_obj.has_next %}#}
+{#                <a href="?page={{ page_obj.next_page_number }}">Next</a>#}
+{#                <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>#}
+{#            {% endif %}#}
+{#        </span>#}
+{#    </div>#}
+{#</body>#}
+{#</html>#}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blog List</title>
+</head>
+<body>
+
+    <nav>
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a>
+        {% endif %}
+        <a href="{% url 'blog_list' %}">Blog List</a>
+    </nav>
+
+    <h1>Blog Posts</h1>
+    <ul>
+        {% for blog in page_obj %}
+            <li>
+                <a href="{% url 'blog_detail' id=blog.id %}">{{ blog.title }}</a>
+            </li>
+        {% empty %}
+            <li>No blog posts available.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Pagination Controls -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; First</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</body>
+</html>

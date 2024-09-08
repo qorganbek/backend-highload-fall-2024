@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Blog: {{ blog.title }}</title>
+</head>
+<body>
+
+    <nav>
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a>
+        {% endif %}
+        <a href="{% url 'blog_list' %}">Blog List</a>
+    </nav>
+
+
+    <h1>Edit Blog</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Changes</button>
+    </form>
+    <a href="{% url 'blog_detail' id=blog.id %}">Cancel</a>
+</body>
+</html>
