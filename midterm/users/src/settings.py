@@ -105,3 +105,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
 }
+
+RABBITMQ_HOST = 'rabbitmq'

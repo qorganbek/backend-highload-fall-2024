@@ -8,7 +8,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -101,3 +100,5 @@ CACHES = {
 }
 
 CACHE_TTL = 60 * 15
+
+RABBITMQ_HOST = 'rabbitmq'

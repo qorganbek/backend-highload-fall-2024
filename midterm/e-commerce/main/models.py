@@ -42,7 +42,7 @@ class Product(models.Model):
 
 class Order(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    user_id = models.IntegerField()
+    user_id = models.UUIDField()
     product = models.ForeignKey(Product, related_name='orders', on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
     order_date = models.DateTimeField(auto_now_add=True)

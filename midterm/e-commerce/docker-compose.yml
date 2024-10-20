@@ -3,9 +3,11 @@ version: '3.8'
 services:
   api2:
     build: .
+    network_mode: "host"
 
   api1:
     build: .
+    network_mode: "host"
 
   nginx:
     image: nginx:mainline

@@ -1,4 +1,7 @@
 from rest_framework import serializers
+
+from .producer import RabbitMQProducer
+from .constant import ORDER_UPDATE
 from .models import Category, Product, Order
 
 
@@ -27,7 +30,20 @@ class OrderSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'order_date']  # Make certain fields read-only
 
     def create(self, validated_data):
-        return Order.objects.create(**validated_data)
+        order = Order.objects.create(**validated_data)
+        self.send_order_notification(order.user_id, order.id)
+        return order
+
+    def send_order_notification(self, user_id, order_id):
+        producer = RabbitMQProducer()
+        message = {
+            'user_id': user_id,
+            'order_id': order_id,
+            'notification_type': ORDER_UPDATE,
+            'message': f'Your order #{order_id} has been created.',
+        }
+        producer.send_message(message)
+        producer.close()
 
     def update(self, instance, validated_data):
         instance.quantity = validated_data.get('quantity', instance.quantity)
