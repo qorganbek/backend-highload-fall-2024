@@ -37,8 +37,8 @@ class OrderSerializer(serializers.ModelSerializer):
     def send_order_notification(self, user_id, order_id):
         producer = RabbitMQProducer()
         message = {
-            'user_id': user_id,
-            'order_id': order_id,
+            'user_id': str(user_id),
+            'order_id': str(order_id),
             'notification_type': ORDER_UPDATE,
             'message': f'Your order #{order_id} has been created.',
         }

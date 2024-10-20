@@ -5,7 +5,7 @@ import json
 class RabbitMQProducer:
     def __init__(self, queue_name='order_notifications'):
         self.queue_name = queue_name
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
         self.channel = self.connection.channel()
         self.channel.queue_declare(queue=self.queue_name, durable=True)
 
