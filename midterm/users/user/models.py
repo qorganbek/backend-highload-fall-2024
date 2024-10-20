@@ -47,3 +47,37 @@ class CustomUser(AbstractUser):
             models.Index(fields=['id']),
             models.Index(fields=['email']),
         ]
+
+
+class Notification(models.Model):
+    # Choices for notification types
+    ORDER_UPDATE = 'order_update'
+    MESSAGE = 'message'
+    ALERT = 'alert'
+    NOTIFICATION_TYPES = [
+        (ORDER_UPDATE, 'Order Update'),
+        (MESSAGE, 'Message'),
+        (ALERT, 'Alert'),
+    ]
+
+    # Fields for the Notification model
+    sender = models.ForeignKey(
+        CustomUser, related_name='sent_notifications', on_delete=models.CASCADE, null=True, blank=True
+    )
+    recipient = models.ForeignKey(
+        CustomUser, related_name='received_notifications', on_delete=models.CASCADE
+    )
+    message = models.TextField()
+    notification_type = models.CharField(
+        max_length=20, choices=NOTIFICATION_TYPES, default=ALERT
+    )
+    status = models.BooleanField(default=False)  # False = Unread, True = Read
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def mark_as_read(self):
+        self.status = True
+        self.save()
+
+    def __str__(self):
+        return f"Notification from {self.sender} to {self.recipient} - {self.notification_type}"
