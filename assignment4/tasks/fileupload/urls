@@ -1,0 +1,7 @@
+from django.urls import path
+from .views import upload_file, check_progress
+
+urlpatterns = [
+    path("upload-file/", upload_file, name="upload_file"),
+    path("check_status", check_progress, name="check_progress")
+]
